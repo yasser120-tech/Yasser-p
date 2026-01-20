@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>YASSER TECH TV</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+<style>
+/* ---------- GENERAL ---------- */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: #0a0a0a;
+  color: #fff;
+  height: 100%;
+}
+
+/* ---------- COVER PAGE ---------- */
+#cover {
+  position: absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: linear-gradient(to bottom, #111 0%, #000 100%);
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  z-index:10;
+}
+
+#cover img {
+  width: 120px;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+#cover h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+  color:#00ffcc;
+}
+
+#cover p {
+  font-size: 18px;
+  margin-bottom: 30px;
+  color:#aaa;
+}
+
+#cover button {
+  padding: 12px 30px;
+  font-size: 18px;
+  background: #00ffcc;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color:#000;
+  transition:0.3s;
+}
+
+#cover button:hover {
+  background:#00cca3;
+}
+
+/* ---------- MAIN TV PAGE ---------- */
+#main {
+  display: none;
+  height: 100%;
+  width: 100%;
+}
+
+header{
+  background:#111;
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+  color:#00ffcc;
+}
+
+.container{
+  display:flex;
+  height:calc(100vh - 60px);
+}
+
+.channels{
+  width:32%;
+  background:#151515;
+  overflow-y:auto;
+}
+
+.section{
+  padding:8px;
+  font-size:13px;
+  background:#101010;
+  color:#aaa;
+}
+
+.channel{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:10px;
+  border-bottom:1px solid #222;
+  cursor:pointer;
+}
+
+.channel img{
+  width:38px;
+  height:38px;
+  object-fit:contain;
+  background:#000;
+  padding:4px;
+  border-radius:6px;
+}
+
+.channel:hover{
+  background:#00ffcc;
+  color:#000;
+}
+
+.player{
+  width:68%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#000;
+}
+
+video{
+  width:95%;
+  max-height:95%;
+  background:#000;
+}
+
+iframe{
+  width:95%;
+  height:95%;
+  border:none;
+}
+
+footer{
+  background:#111;
+  text-align:center;
+  padding:8px;
+  font-size:12px;
+  color:#aaa;
+}
+
+@media(max-width:768px){
+  .container{flex-direction:column;}
+  .channels,.player{width:100%;height:50%;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- COVER PAGE -->
+<div id="cover">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/5/5a/YouTube_social_white_square_icon_%282017%29.svg" alt="Yasser Tech TV Logo">
+  <h1>YASSER TECH TV</h1>
+  <p>Free International News & Sports + Tanzania Live Channels</p>
+  <button onclick="enterTV()">Enter Yasser Tech TV</button>
+</div>
+
+<!-- MAIN TV PAGE -->
+<div id="main">
+<header>📺 YASSER TECH TV - News & Sports</header>
+
+<div class="container">
+  <div class="channels">
+
+    <div class="section">📰 INTERNATIONAL NEWS</div>
+    <div class="channel" onclick="playChannel('https://dwamdstream103.akamaized.net/hls/live/2015525/dwstream103/index.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/DW_Logo_2012.svg">
+      DW News
+    </div>
+    <div class="channel" onclick="playChannel('https://live-hls-web-aje.getaj.net/AJE/index.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/en/f/f2/Al_Jazeera_English_logo.svg">
+      Al Jazeera English
+    </div>
+    <div class="channel" onclick="playChannel('https://static.france24.com/live/F24_EN_HI_HLS/live_web.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/France_24_logo.svg">
+      France 24 (EN)
+    </div>
+    <div class="channel" onclick="playChannel('https://static.france24.com/live/F24_FR_HI_HLS/live_web.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/France_24_logo.svg">
+      France 24 (FR)
+    </div>
+    <div class="channel" onclick="playChannel('https://rt-glb.rttv.com/live/rtnews/playlist.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Russia-today-logo.svg">
+      RT News
+    </div>
+    <div class="channel" onclick="playChannel('https://nasatv-lh.akamaihd.net/i/NASA_101@319270/master.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg">
+      NASA TV
+    </div>
+    <div class="channel" onclick="playChannel('https://euronews-live-hls.akamaized.net/euronews/euronews-en.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Euronews_logo.svg">
+      Euronews
+    </div>
+    <div class="channel" onclick="playChannel('https://www.trtworld.com/live')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/TRT_World_logo.svg">
+      TRT World
+    </div>
+
+    <div class="section">⚽ INTERNATIONAL SPORTS</div>
+    <div class="channel" onclick="playChannel('https://www.redbull.tv/stream/football.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Red_Bull_TV_Logo.svg">
+      Red Bull TV
+    </div>
+    <div class="channel" onclick="playChannel('https://www.fifa.com/live-stream.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/FIFA_Logo.svg">
+      FIFA+ Free Matches
+    </div>
+    <div class="channel" onclick="playChannel('https://www.beinsports.com/xtra/live.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/BeIN_SPORTS_logo.svg">
+      beIN SPORTS XTRA
+    </div>
+    <div class="channel" onclick="playChannel('https://rtsport-live.m3u8')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/RT_Sport_logo.svg">
+      RT Sport
+    </div>
+
+    <div class="section">🇹🇿 TANZANIA LIVE (YouTube)</div>
+    <div class="channel" onclick="playYouTube('https://www.youtube.com/embed/LiveTBC')">
+      <img src="https://upload.wikimedia.org/wikipedia/en/6/6e/TBC_Tanzania_logo.png">
+      TBC Live
+    </div>
+    <div class="channel" onclick="playYouTube('https://www.youtube.com/embed/LiveITV')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/1/15/ITV_Tanzania_logo.png">
+      ITV Tanzania
+    </div>
+    <div class="channel" onclick="playYouTube('https://www.youtube.com/embed/LiveWasafi')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/WasafiTV_Logo.png">
+      Wasafi TV
+    </div>
+    <div class="channel" onclick="playYouTube('https://www.youtube.com/embed/LiveZBC')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/Zanzibar_TV_logo.png">
+      Zanzibar TV
+    </div>
+    <div class="channel" onclick="playYouTube('https://www.youtube.com/embed/LiveStarTV')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/2/23/Star_TV_Tanzania_logo.png">
+      Star TV
+    </div>
+    <div class="channel" onclick="playYouTube('https://www.youtube.com/embed/LiveIBN')">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/IBN_Tanzania_logo.png">
+      IBN TV
+    </div>
+
+  </div>
+
+  <div class="player">
+    <video id="video" controls autoplay muted style="display:block;"></video>
+    <iframe id="ytframe" style="display:none;"></iframe>
+  </div>
+</div>
+
+<footer>
+© 2026 YASSER TECH TV • Free International & Tanzania Streaming
+</footer>
+
+<script>
+let video = document.getElementById("video");
+let ytframe = document.getElementById("ytframe");
+let hls;
+
+function enterTV(){
+  document.getElementById("cover").style.display="none";
+  document.getElementById("main").style.display="block";
+}
+
+// Play m3u8 stream
+function playChannel(url){
+  ytframe.style.display="none";
+  video.style.display="block";
+  if(Hls.isSupported()){
+    if(hls){hls.destroy();}
+    hls=new Hls();
+    hls.loadSource(url);
+    hls.attachMedia(video);
+    hls.on(Hls.Events.MANIFEST_PARSED,()=>video.play());
+  }else if(video.canPlayType("application/vnd.apple.mpegurl")){
+    video.src=url;
+    video.play();
+  } else {
+    alert("Browser yako hai-support stream hii.");
+  }
+}
+
+// Play YouTube live embed
+function playYouTube(url){
+  video.style.display="none";
+  ytframe.style.display="block";
+  ytframe.src=url+"?autoplay=1";
+}
+</script>
+
+</body>
+  </html>
